@@ -1,0 +1,20 @@
+This is a project that is going to be a npm package. The project is a Nuxt 3 library that is using Tailwind CSS, and Nuxt Icon. The project is going to be a library for a dynamic form component that will be used in a Nuxt 3 application. I want the component to be able to handle a variety of fields, including text, email, number, select, radio, and checkbox. I also want the component to be able to handle nested fields, and conditional rendering of fields based on the value of other fields. I also want the component to be able to handle validation of the fields, and to be able to handle submitting the form data to a backend API that is provided by the developer (This should just be them providing a callback function that will be called with the form data). Based on configuration, the component will be able to return a valid JSON, or YAML object that can be used to submit the form data to a backend API, this is to optimize for Postgres jsonb columns, or to be able to grab the data and save to whatever the backend API needs. The configuration file for the forms should be loaded from a file, database, or hardcoded object and then loaded into the component at runtime
+
+In terms of the style of the form and form fields. I want the component to be highly configurable. This should include a way to use developer provided tailwind classes to style the component (Form Fields and the form itself), or use the component with default tailwind classes that we provide. I want these configurations to be loaded from a config file, and the config file should loaded on build.
+
+Once all of the development on this project is complete, I want to turn the library into a Nuxt 3 module. Please keep this in mind when writing the code, and when making changes to the code.
+
+When giving answers for this site, be sure to reference all of the latest documentation for this tech stack. Below are the links to the latest documentation:
+
+https://nuxt.com/docs/getting-started/introduction
+https://nuxt.com/docs/_
+https://nuxt.com/modules/icon
+https://tailwindcss.com/docs/installation/framework-guides/nuxt
+https://tailwindcss.com/docs/_
+https://docs.npmjs.com/
+
+Documentation for creating a Nuxt 3 module:
+https://nuxt.com/docs/api/kit/modules
+
+Documentation for typescript to write clean types, interfaces, and classes:
+https://www.typescriptlang.org/docs/
