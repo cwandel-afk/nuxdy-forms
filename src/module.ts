@@ -11,7 +11,7 @@ import { fileURLToPath } from "url";
 
 export default defineNuxtModule({
   meta: {
-    name: "nuxt-dynamic-form",
+    name: "nuxdy-forms",
     configKey: "dynamicForm",
     compatibility: {
       nuxt: "^3.0.0",

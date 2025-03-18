@@ -1,0 +1,27 @@
+# Development
+node_modules
+.nuxt
+playground
+.output
+.github
+.git
+src
+tests
+
+# Build files
+*.log
+*.swp
+.DS_Store
+.env
+
+# Config files
+.eslintrc
+.prettierrc
+tsconfig.json
+vitest.config.ts
+
+# Other
+coverage
+.vscode
+.idea
+.cursorrules 

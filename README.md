@@ -1,5 +1,9 @@
 # Nuxdy Forms
 
+[![npm version](https://img.shields.io/npm/v/nuxdy-forms.svg)](https://www.npmjs.com/package/nuxdy-forms)
+[![npm downloads](https://img.shields.io/npm/dm/nuxdy-forms.svg)](https://www.npmjs.com/package/nuxdy-forms)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
 A dynamic form component library for Nuxt 3 applications. This library allows you to create highly configurable forms with various field types, nested fields, conditional rendering, and validation.
 
 ## Features
@@ -43,10 +47,7 @@ export default defineNuxtConfig({
 
 ```html
 <template>
-  <DynamicForm
-    :config="formConfig"
-    :submitCallback="handleSubmit"
-  />
+  <DynamicForm :config="formConfig" :submitCallback="handleSubmit" />
 </template>
 ```
 
@@ -262,183 +263,183 @@ You can customize the appearance of the form by overriding the default classes (
 
 ```css
 /* Base form styles */
-  .dynamic-form {
-    width: 100%;
-    margin-bottom: 1.5rem;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-  }
+.dynamic-form {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+}
 
-  .dynamic-form-field {
-    width: 100%;
-    height: 100%;
-    margin-bottom: 1rem;
-  }
+.dynamic-form-field {
+  width: 100%;
+  height: 100%;
+  margin-bottom: 1rem;
+}
 
-  .dynamic-form-label {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #374151;
-    margin-bottom: 0.25rem;
-  }
+.dynamic-form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
 
-  /* ----------------------------------------------------------- */
+/* ----------------------------------------------------------- */
 
-  .dynamic-form-field-label {
-    font-size: 0.875rem;
-    font-weight: 500;
-  }
+.dynamic-form-field-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
 
-  /* ----------------------------------------------------------- */
+/* ----------------------------------------------------------- */
 
-  .dynamic-form-input {
-    width: 100%;
-    min-height: 3rem;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    border: 0.15rem solid lightgrey;
-    outline: none;
-    font-size: 0.875rem;
-    box-shadow: 0px 0px 20px -18px;
-  }
+.dynamic-form-input {
+  width: 100%;
+  min-height: 3rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 0.15rem solid lightgrey;
+  outline: none;
+  font-size: 0.875rem;
+  box-shadow: 0px 0px 20px -18px;
+}
 
-  .dynamic-form-input:hover {
-    border: 2px solid lightgrey;
-    box-shadow: 0px 0px 20px -17px;
-  }
+.dynamic-form-input:hover {
+  border: 2px solid lightgrey;
+  box-shadow: 0px 0px 20px -17px;
+}
 
-  .dynamic-form-input:focus {
-    border: 2px solid grey;
-  }
+.dynamic-form-input:focus {
+  border: 2px solid grey;
+}
 
-  /* ----------------------------------------------------------- */
+/* ----------------------------------------------------------- */
 
-  .dynamic-form-select {
-    width: 100%;
-    min-height: 3rem;
-    padding-inline: 1rem;
-    border-radius: 0.5rem;
-    border: 0.15rem solid lightgrey;
-    outline: none;
-    font-size: 0.875rem;
-    box-shadow: 0px 0px 20px -18px;
-  }
+.dynamic-form-select {
+  width: 100%;
+  min-height: 3rem;
+  padding-inline: 1rem;
+  border-radius: 0.5rem;
+  border: 0.15rem solid lightgrey;
+  outline: none;
+  font-size: 0.875rem;
+  box-shadow: 0px 0px 20px -18px;
+}
 
-  .dynamic-form-select:hover {
-    border: 2px solid lightgrey;
-    box-shadow: 0px 0px 20px -17px;
-  }
+.dynamic-form-select:hover {
+  border: 2px solid lightgrey;
+  box-shadow: 0px 0px 20px -17px;
+}
 
-  .dynamic-form-select:focus {
-    border: 2px solid grey;
-  }
+.dynamic-form-select:focus {
+  border: 2px solid grey;
+}
 
-  /* ----------------------------------------------------------- */
+/* ----------------------------------------------------------- */
 
-  .dynamic-form-checkbox {
-    height: 1rem;
-    width: 1rem;
-    border-radius: 0.25rem;
-    border-color: #d1d5db;
-    color: #6366f1;
-    margin-right: 0.5rem;
-  }
+.dynamic-form-checkbox {
+  height: 1rem;
+  width: 1rem;
+  border-radius: 0.25rem;
+  border-color: #d1d5db;
+  color: #6366f1;
+  margin-right: 0.5rem;
+}
 
-  .dynamic-form-checkbox:focus {
-    box-shadow: 0 0 0 2px #6366f1;
-  }
+.dynamic-form-checkbox:focus {
+  box-shadow: 0 0 0 2px #6366f1;
+}
 
-  /* ----------------------------------------------------------- */
+/* ----------------------------------------------------------- */
 
-  .dynamic-form-radio {
-    height: 1rem;
-    width: 1rem;
-    border-color: #d1d5db;
-    color: #6366f1;
-    margin-right: 0.5rem;
-  }
+.dynamic-form-radio {
+  height: 1rem;
+  width: 1rem;
+  border-color: #d1d5db;
+  color: #6366f1;
+  margin-right: 0.5rem;
+}
 
-  .dynamic-form-radio:focus {
-    box-shadow: 0 0 0 2px #6366f1;
-  }
+.dynamic-form-radio:focus {
+  box-shadow: 0 0 0 2px #6366f1;
+}
 
-  /* ----------------------------------------------------------- */
+/* ----------------------------------------------------------- */
 
-  .dynamic-form-error {
-    margin-top: 0.5rem;
-    font-size: 0.875rem;
-    color: #dc2626;
-  }
+.dynamic-form-error {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #dc2626;
+}
 
-  /* ----------------------------------------------------------- */
+/* ----------------------------------------------------------- */
 
-  .dynamic-form-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-  }
+.dynamic-form-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
 
-  .dynamic-form-description {
-    color: #4b5563;
-    margin-bottom: 1.5rem;
-  }
+.dynamic-form-description {
+  color: #4b5563;
+  margin-bottom: 1.5rem;
+}
 
-  /* ----------------------------------------------------------- */
+/* ----------------------------------------------------------- */
 
-  .dynamic-form-actions {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1.5rem;
-  }
+.dynamic-form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
 
-  .dynamic-form-button {
-    display: inline-flex;
-    justify-content: center;
-    border-radius: 0.375rem;
-    border-width: 1px;
-    background-color: #4f46e5;
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: white;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  }
+.dynamic-form-button {
+  display: inline-flex;
+  justify-content: center;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  background-color: #4f46e5;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
 
-  .dynamic-form-button:hover {
-    background-color: #4338ca;
-  }
+.dynamic-form-button:hover {
+  background-color: #4338ca;
+}
 
-  .dynamic-form-button:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px #c7d2fe;
-  }
+.dynamic-form-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #c7d2fe;
+}
 
-  .dynamic-form-group {
-    padding: 1rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
-  }
+.dynamic-form-group {
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
 
-  .dynamic-form-list-item {
-    position: relative;
-    padding: 1rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
-  }
+.dynamic-form-list-item {
+  position: relative;
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
 
-  .dynamic-form-remove-button {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    color: #ef4444;
-  }
+.dynamic-form-remove-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: #ef4444;
+}
 
-  .dynamic-form-remove-button:hover {
-    color: #b91c1c;
-  }
+.dynamic-form-remove-button:hover {
+  color: #b91c1c;
+}
 ```
 
 ## Events
