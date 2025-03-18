@@ -1,13 +1,12 @@
+import tailwindcss from '@tailwindcss/vite'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["../src/module", "nuxt-icon"],
   css: ["~/assets/css/main.css"],
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
+  modules: ["nuxt-icon", "../src/module.ts"],
+  vite: {
+    plugins: [tailwindcss()]
   },
   compatibilityDate: "2025-03-10",
 });
