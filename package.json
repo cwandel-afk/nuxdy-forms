@@ -38,7 +38,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/christopher-wandel/nuxdy-forms"
+    "url": "https://github.com/cwandel-afk/nuxdy-forms"
   },
   "dependencies": {
     "@nuxt/kit": "^3.16.0",

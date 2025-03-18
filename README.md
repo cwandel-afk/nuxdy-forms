@@ -36,10 +36,6 @@ Add the module to your `nuxt.config.ts`:
 ```typescript
 export default defineNuxtConfig({
   modules: ["nuxdy-forms"],
-  // Optional module configuration
-  dynamicForm: {
-    // Your configuration options here
-  },
 });
 ```
 
