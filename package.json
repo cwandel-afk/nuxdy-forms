@@ -1,7 +1,7 @@
 {
   "name": "nuxdy-forms",
-  "version": "1.0.0",
-  "description": "Dynamic form component library for Nuxt 3 applications",
+  "version": "1.0.1",
+  "description": "Lightweight Dynamic form component library for Nuxt 3 applications",
   "type": "module",
   "main": "./dist/module.mjs",
   "types": "./dist/types.d.ts",

@@ -2,7 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## 1.0.0 - 2024-04-12
+## 1.0.1 - 2025-03-18
+
+### Minor
+
+- Updated README
+- Updated package.json
 
 ### Added
 
