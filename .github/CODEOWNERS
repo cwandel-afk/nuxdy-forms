@@ -1,0 +1,14 @@
+# This is a CODEOWNERS file for the nuxdy-forms repository
+# Each line is a file pattern followed by one or more owners.
+
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# @cwandel-afk will be requested for review when someone opens a pull request.
+* @cwandel-afk
+
+# Examples of more specific rules (uncomment and customize as needed):
+# /src/ @cwandel-afk
+# /playground/ @cwandel-afk
+# *.ts @cwandel-afk
+# *.vue @cwandel-afk
+# /server/ @cwandel-afk 
