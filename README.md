@@ -4,7 +4,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/nuxdy-forms.svg)](https://www.npmjs.com/package/nuxdy-forms)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-A dynamic form component library for Nuxt 3 applications. This library allows you to create highly configurable forms with various field types, nested fields, conditional rendering, and validation.
+An extremely lightweight dynamic form component library for Nuxt 3 applications. This library allows you to create highly configurable forms with various field types, nested fields, conditional rendering, and validation.
 
 ## Features
 
@@ -43,7 +43,7 @@ export default defineNuxtConfig({
 
 ```html
 <template>
-  <DynamicForm :config="formConfig" :submitCallback="handleSubmit" />
+  <NuxdyForm :config="formConfig" :submitCallback="handleSubmit" />
 </template>
 ```
 
@@ -259,20 +259,20 @@ You can customize the appearance of the form by overriding the default classes (
 
 ```css
 /* Base form styles */
-.dynamic-form {
+.nuxdy-form {
   width: 100%;
   margin-bottom: 1.5rem;
   padding: 1.5rem;
   border-radius: 0.5rem;
 }
 
-.dynamic-form-field {
+.nuxdy-form-field {
   width: 100%;
   height: 100%;
   margin-bottom: 1rem;
 }
 
-.dynamic-form-label {
+.nuxdy-form-label {
   display: block;
   font-size: 0.875rem;
   font-weight: 500;
@@ -282,14 +282,14 @@ You can customize the appearance of the form by overriding the default classes (
 
 /* ----------------------------------------------------------- */
 
-.dynamic-form-field-label {
+.nuxdy-form-field-label {
   font-size: 0.875rem;
   font-weight: 500;
 }
 
 /* ----------------------------------------------------------- */
 
-.dynamic-form-input {
+.nuxdy-form-input {
   width: 100%;
   min-height: 3rem;
   padding: 1rem;
@@ -300,18 +300,18 @@ You can customize the appearance of the form by overriding the default classes (
   box-shadow: 0px 0px 20px -18px;
 }
 
-.dynamic-form-input:hover {
+.nuxdy-form-input:hover {
   border: 2px solid lightgrey;
   box-shadow: 0px 0px 20px -17px;
 }
 
-.dynamic-form-input:focus {
+.nuxdy-form-input:focus {
   border: 2px solid grey;
 }
 
 /* ----------------------------------------------------------- */
 
-.dynamic-form-select {
+.nuxdy-form-select {
   width: 100%;
   min-height: 3rem;
   padding-inline: 1rem;
@@ -322,18 +322,18 @@ You can customize the appearance of the form by overriding the default classes (
   box-shadow: 0px 0px 20px -18px;
 }
 
-.dynamic-form-select:hover {
+.nuxdy-form-select:hover {
   border: 2px solid lightgrey;
   box-shadow: 0px 0px 20px -17px;
 }
 
-.dynamic-form-select:focus {
+.nuxdy-form-select:focus {
   border: 2px solid grey;
 }
 
 /* ----------------------------------------------------------- */
 
-.dynamic-form-checkbox {
+.nuxdy-form-checkbox {
   height: 1rem;
   width: 1rem;
   border-radius: 0.25rem;
@@ -342,13 +342,13 @@ You can customize the appearance of the form by overriding the default classes (
   margin-right: 0.5rem;
 }
 
-.dynamic-form-checkbox:focus {
+.nuxdy-form-checkbox:focus {
   box-shadow: 0 0 0 2px #6366f1;
 }
 
 /* ----------------------------------------------------------- */
 
-.dynamic-form-radio {
+.nuxdy-form-radio {
   height: 1rem;
   width: 1rem;
   border-color: #d1d5db;
@@ -356,13 +356,13 @@ You can customize the appearance of the form by overriding the default classes (
   margin-right: 0.5rem;
 }
 
-.dynamic-form-radio:focus {
+.nuxdy-form-radio:focus {
   box-shadow: 0 0 0 2px #6366f1;
 }
 
 /* ----------------------------------------------------------- */
 
-.dynamic-form-error {
+.nuxdy-form-error {
   margin-top: 0.5rem;
   font-size: 0.875rem;
   color: #dc2626;
@@ -370,26 +370,26 @@ You can customize the appearance of the form by overriding the default classes (
 
 /* ----------------------------------------------------------- */
 
-.dynamic-form-title {
+.nuxdy-form-title {
   font-size: 1.25rem;
   font-weight: 700;
   margin-bottom: 1rem;
 }
 
-.dynamic-form-description {
+.nuxdy-form-description {
   color: #4b5563;
   margin-bottom: 1.5rem;
 }
 
 /* ----------------------------------------------------------- */
 
-.dynamic-form-actions {
+.nuxdy-form-actions {
   display: flex;
   gap: 1rem;
   margin-top: 1.5rem;
 }
 
-.dynamic-form-button {
+.nuxdy-form-button {
   display: inline-flex;
   justify-content: center;
   border-radius: 0.375rem;
@@ -402,23 +402,27 @@ You can customize the appearance of the form by overriding the default classes (
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-.dynamic-form-button:hover {
+.nuxdy-form-button:hover,
+.nuxdy-form-button:focus {
   background-color: #4338ca;
 }
 
-.dynamic-form-button:focus {
-  outline: none;
+.nuxdy-form-button:active,
+.nuxdy-form-button:focus-visible {
+  outline-color: transparent; /* ensures we have focus indicator on high contrast themes */
+  outline-width: 2px;
+  outline-style: solid;
   box-shadow: 0 0 0 2px #c7d2fe;
 }
 
-.dynamic-form-group {
+.nuxdy-form-group {
   padding: 1rem;
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
   margin-bottom: 1rem;
 }
 
-.dynamic-form-list-item {
+.nuxdy-form-list-item {
   position: relative;
   padding: 1rem;
   border: 1px solid #e5e7eb;
@@ -426,21 +430,21 @@ You can customize the appearance of the form by overriding the default classes (
   margin-bottom: 1rem;
 }
 
-.dynamic-form-remove-button {
+.nuxdy-form-remove-button {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
   color: #ef4444;
 }
 
-.dynamic-form-remove-button:hover {
+.nuxdy-form-remove-button:hover {
   color: #b91c1c;
 }
 ```
 
 ## Events
 
-The DynamicForm component emits the following events:
+The NuxdyForm component emits the following events:
 
 - `submit`: Emitted when the form is submitted with valid data
 - `reset`: Emitted when the form is reset

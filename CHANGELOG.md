@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 - Updated README
 - Updated package.json
+- Updated nuxdy-form.css to ensure focus indicator is visible on high contrast themes
 
 ### Added
 

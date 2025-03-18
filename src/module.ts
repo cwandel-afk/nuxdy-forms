@@ -1,6 +1,5 @@
 import {
   defineNuxtModule,
-  addPlugin,
   createResolver,
   addComponent,
   addServerPlugin,
@@ -12,7 +11,7 @@ import { fileURLToPath } from "url";
 export default defineNuxtModule({
   meta: {
     name: "nuxdy-forms",
-    configKey: "dynamicForm",
+    configKey: "nuxdyForm",
     compatibility: {
       nuxt: "^3.0.0",
     },
@@ -23,22 +22,19 @@ export default defineNuxtModule({
 
     // Add CSS file with a lower priority (to load it earlier)
     nuxt.options.css.unshift(
-      resolver.resolve("./runtime/assets/css/dynamic-form.css")
+      resolver.resolve("./runtime/assets/css/nuxdy-form.css")
     );
 
     // Add components
     addComponent({
-      name: "DynamicForm",
-      filePath: resolver.resolve("./runtime/components/DynamicForm.vue"),
+      name: "NuxdyForm",
+      filePath: resolver.resolve("./runtime/components/NuxdyForm.vue"),
     });
 
     addComponent({
       name: "FormField",
       filePath: resolver.resolve("./runtime/components/FormField.vue"),
     });
-
-    // Add plugin
-    addPlugin(resolver.resolve("./runtime/plugin"));
 
     // Add composables
     addImportsDir(resolver.resolve("./runtime/composables"));

@@ -198,8 +198,8 @@ const handleSubmit = (data: any) => {
 
 <template>
   <div class="container mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-6">Dynamic Form Example</h1>
+    <h1 class="text-2xl font-bold mb-6">Nuxdy Form Example</h1>
 
-    <DynamicForm :config="formConfig" @submit="handleSubmit" />
+    <NuxdyForm :config="formConfig" @submit="handleSubmit" />
   </div>
 </template>

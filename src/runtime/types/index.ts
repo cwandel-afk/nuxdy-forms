@@ -92,11 +92,3 @@ export interface FormConfig {
   resetLabel?: string;
   outputFormat?: "json" | "yaml";
 }
-
-declare module "#app" {
-  interface NuxtApp {
-    $dynamicForm: {
-      loadFormConfig: (source: string) => Promise<FormConfig>;
-    };
-  }
-}

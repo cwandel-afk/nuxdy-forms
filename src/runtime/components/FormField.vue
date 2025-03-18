@@ -88,11 +88,11 @@ function updateListItem(index: number, fieldId: string, value: any) {
 </script>
 
 <template>
-  <div class="dynamic-form-field">
+  <div class="nuxdy-form-field">
     <label
       v-if="field.label && field.type !== 'checkbox'"
       :for="field.id"
-      class="dynamic-form-label"
+      class="nuxdy-form-label"
     >
       {{ field.label }}
       <span v-if="field.required" class="text-red-500">*</span>
@@ -108,7 +108,7 @@ function updateListItem(index: number, fieldId: string, value: any) {
       :value="modelValue"
       :min="field.type === 'number' ? field.min : undefined"
       :max="field.type === 'number' ? field.max : undefined"
-      class="dynamic-form-input"
+      class="nuxdy-form-input"
       @input="updateValue(($event.target as HTMLInputElement).value)"
     />
 
@@ -118,7 +118,7 @@ function updateListItem(index: number, fieldId: string, value: any) {
       :id="field.id"
       :required="field.required"
       :value="modelValue"
-      class="dynamic-form-select"
+      class="nuxdy-form-select"
       @change="updateValue(($event.target as HTMLSelectElement).value)"
     >
       <option value="" disabled selected>
@@ -134,7 +134,7 @@ function updateListItem(index: number, fieldId: string, value: any) {
     </select>
 
     <!-- Radio buttons -->
-    <div v-else-if="field.type === 'radio'" class="space-y-2">
+    <div v-else-if="field.type === 'radio'">
       <div
         v-for="option in (field as any).options"
         :key="String(option.value)"
@@ -146,12 +146,12 @@ function updateListItem(index: number, fieldId: string, value: any) {
           :name="field.id"
           :value="option.value"
           :checked="modelValue === option.value"
-          class="dynamic-form-radio"
+          class="nuxdy-form-radio"
           @change="updateValue(option.value)"
         />
         <label
           :for="`${field.id}-${option.value}`"
-          class="dynamic-form-field-label"
+          class="nuxdy-form-field-label"
         >
           {{ option.label }}
         </label>
@@ -164,10 +164,10 @@ function updateListItem(index: number, fieldId: string, value: any) {
         :id="field.id"
         type="checkbox"
         :checked="!!modelValue"
-        class="dynamic-form-checkbox"
+        class="nuxdy-form-checkbox"
         @change="updateValue(($event.target as HTMLInputElement).checked)"
       />
-      <label :for="field.id" class="dynamic-form-field-label">
+      <label :for="field.id" class="nuxdy-form-field-label">
         {{ field.label }}
         <span v-if="field.required" class="text-red-500">*</span>
       </label>
@@ -181,12 +181,12 @@ function updateListItem(index: number, fieldId: string, value: any) {
       :required="field.required"
       :rows="(field as any).rows || 3"
       :value="modelValue"
-      class="dynamic-form-input"
+      class="nuxdy-form-input"
       @input="updateValue(($event.target as HTMLTextAreaElement).value)"
     ></textarea>
 
     <!-- Checkbox group -->
-    <div v-else-if="field.type === 'checkbox-group'" class="space-y-2">
+    <div v-else-if="field.type === 'checkbox-group'">
       <div
         v-for="option in (field as any).options"
         :key="String(option.value)"
@@ -200,12 +200,12 @@ function updateListItem(index: number, fieldId: string, value: any) {
           :checked="
             Array.isArray(modelValue) && modelValue.includes(option.value)
           "
-          class="dynamic-form-checkbox"
+          class="nuxdy-form-checkbox"
           @change="updateCheckboxGroup(option.value, $event)"
         />
         <label
           :for="`${field.id}-${option.value}`"
-          class="dynamic-form-field-label"
+          class="nuxdy-form-field-label"
         >
           {{ option.label }}
         </label>
@@ -213,8 +213,8 @@ function updateListItem(index: number, fieldId: string, value: any) {
     </div>
 
     <!-- Group of fields -->
-    <div v-else-if="field.type === 'group'" class="dynamic-form-group">
-      <h3 v-if="field.label" class="dynamic-form-label">
+    <div v-else-if="field.type === 'group'" class="nuxdy-form-group">
+      <h3 v-if="field.label" class="nuxdy-form-label">
         {{ field.label }}
       </h3>
       <template v-if="(field as any).fields">
@@ -235,16 +235,15 @@ function updateListItem(index: number, fieldId: string, value: any) {
         <div
           v-for="(item, index) in modelValue"
           :key="index"
-          class="dynamic-form-list-item"
+          class="nuxdy-form-list-item"
         >
           <button
             type="button"
-            class="dynamic-form-remove-button"
+            class="nuxdy-form-remove-button"
             @click="removeListItem(index)"
           >
             &times;
           </button>
-
           <div v-if="(field as any).fields">
             <div v-for="subField in (field as any).fields" :key="subField.id">
               <FormField
@@ -257,17 +256,16 @@ function updateListItem(index: number, fieldId: string, value: any) {
         </div>
       </div>
 
-      <button type="button" class="dynamic-form-button" @click="addListItem">
+      <button type="button" class="nuxdy-form-button" @click="addListItem">
         {{ (field as any).addButtonLabel || "Add Item" }}
       </button>
     </div>
 
     <!-- Error messages -->
-    <div v-if="errors && errors.length" class="dynamic-form-error">
+    <div v-if="errors && errors.length" class="nuxdy-form-error">
       <p v-for="(error, index) in errors" :key="index">{{ error }}</p>
     </div>
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -162,11 +162,11 @@ function resetForm() {
 </script>
 
 <template>
-  <form class="dynamic-form" @submit.prevent="handleSubmit">
-    <h2 v-if="config.title" class="dynamic-form-title">
+  <form class="nuxdy-form" @submit.prevent="handleSubmit">
+    <h2 v-if="config.title" class="nuxdy-form-title">
       {{ config.title }}
     </h2>
-    <p v-if="config.description" class="dynamic-form-description">
+    <p v-if="config.description" class="nuxdy-form-description">
       {{ config.description }}
     </p>
 
@@ -180,14 +180,14 @@ function resetForm() {
       />
     </template>
 
-    <div class="dynamic-form-actions">
-      <button type="submit" class="dynamic-form-button">
+    <div class="nuxdy-form-actions">
+      <button type="submit" class="nuxdy-form-button">
         {{ config.submitLabel || "Submit" }}
       </button>
       <button
         v-if="config.resetLabel"
         type="button"
-        class="dynamic-form-button"
+        class="nuxdy-form-button"
         @click="resetForm"
       >
         {{ config.resetLabel }}
@@ -196,5 +196,4 @@ function resetForm() {
   </form>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
