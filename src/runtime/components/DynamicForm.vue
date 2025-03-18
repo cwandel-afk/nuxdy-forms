@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from "vue";
-import { useRuntimeConfig } from "#app";
+import { ref, onMounted } from "vue";
 import type { FormConfig, FormField } from "../types";
 
 const props = defineProps<{
@@ -208,3 +207,6 @@ function resetForm() {
     </div>
   </form>
 </template>
+
+<style scoped>
+</style>

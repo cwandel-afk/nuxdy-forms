@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useRuntimeConfig } from "#app";
 import type { FormField } from "../types";
 
 const props = defineProps<{
@@ -153,7 +151,7 @@ function updateListItem(index: number, fieldId: string, value: any) {
         />
         <label
           :for="`${field.id}-${option.value}`"
-          class="ml-2 text-sm text-gray-700"
+          class="dynamic-form-field-label"
         >
           {{ option.label }}
         </label>
@@ -169,7 +167,7 @@ function updateListItem(index: number, fieldId: string, value: any) {
         class="dynamic-form-checkbox"
         @change="updateValue(($event.target as HTMLInputElement).checked)"
       />
-      <label :for="field.id" class="ml-2 text-sm text-gray-700">
+      <label :for="field.id" class="dynamic-form-field-label">
         {{ field.label }}
         <span v-if="field.required" class="text-red-500">*</span>
       </label>
@@ -207,7 +205,7 @@ function updateListItem(index: number, fieldId: string, value: any) {
         />
         <label
           :for="`${field.id}-${option.value}`"
-          class="ml-2 text-sm text-gray-700"
+          class="dynamic-form-field-label"
         >
           {{ option.label }}
         </label>
@@ -270,3 +268,6 @@ function updateListItem(index: number, fieldId: string, value: any) {
     </div>
   </div>
 </template>
+
+<style scoped>
+</style>

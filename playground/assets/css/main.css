@@ -16,21 +16,5 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
   }
-}
-
-/* Base form styles */
-.dynamic-form {
-  @apply w-full space-y-6 p-6 rounded-lg border-4 border-blue-500;
-}
-
-.dynamic-form-field {
-  @apply w-full mb-4;
-}
-
-.dynamic-form-input {
-  @apply w-full min-h-14 block rounded-md border-4 border-red-300 p-2 focus:border-transparent focus:ring-2 focus:ring-indigo-500;
-}
-
-.dynamic-form-select {
-  @apply w-full min-h-14 bg-transparent block rounded-md border-8 border-purple-700 p-2 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500;
+  
 }

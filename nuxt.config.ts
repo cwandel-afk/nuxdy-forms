@@ -5,8 +5,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     "nuxt-icon",
-    // During development, you'll use the local module
-    // '../'
   ],
   css: ["~/assets/css/main.css"],
   vite: {
