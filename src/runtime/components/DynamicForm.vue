@@ -5,18 +5,6 @@ import type { FormConfig, FormField } from "../types";
 const props = defineProps<{
   config: FormConfig;
   submitCallback?: (data: any) => void | Promise<void>;
-  formClasses?: string;
-  titleClasses?: string;
-  descriptionClasses?: string;
-  submitButtonClasses?: string;
-  resetButtonClasses?: string;
-  fieldClasses?: string;
-  labelClasses?: string;
-  inputClasses?: string;
-  selectClasses?: string;
-  checkboxClasses?: string;
-  radioClasses?: string;
-  errorClasses?: string;
 }>();
 
 const emit = defineEmits(["submit", "reset", "validation-error"]);

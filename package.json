@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-dynamic-form",
+  "name": "nuxdy-forms",
   "version": "0.1.0",
   "description": "Dynamic form component for Nuxt 3",
   "type": "module",
