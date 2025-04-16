@@ -74,6 +74,7 @@ interface ListFormField extends BaseFormField {
   removeButtonLabel?: string;
   minItems?: number;
   maxItems?: number;
+  displayFieldId?: string;
 }
 
 // Union type of all field types
@@ -93,4 +94,5 @@ export interface FormConfig {
   submitLabel?: string;
   resetLabel?: string;
   outputFormat?: "json" | "yaml";
+  buttonPlacement?: "left" | "right";
 }

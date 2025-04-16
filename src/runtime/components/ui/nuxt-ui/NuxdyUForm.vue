@@ -29,6 +29,10 @@ const handleSubmit = async () => {
   console.log("handleSubmit", state);
 };
 
+const handleReset = () => {
+  initState();
+};
+
 onMounted(async () => {
   await initState();
   // Mark as hydrated after initialization
@@ -163,6 +167,8 @@ const fieldWidth = (field: FormField) => {
             :list-id="field.id"
             :full-width-fields="props.fullWidthFields"
             :space-between-fields="props.spaceBetweenFields"
+            :add-button-label="field.addButtonLabel"
+            :display-field-id="field.displayFieldId"
             @update:state="handleListUpdate"
           />
         </UCard>
@@ -177,7 +183,13 @@ const fieldWidth = (field: FormField) => {
         </UCard>
       </UFormField>
     </div>
-    <UButton :label="config.submitLabel" @click="handleValidate" />
+    <div
+      class="flex gap-2"
+      :class="{ 'justify-end': config.buttonPlacement === 'right' }"
+    >
+      <UButton :label="config.submitLabel" @click="handleValidate" />
+      <UButton :label="config.resetLabel" @click="handleReset" />
+    </div>
     <!--TODO: Need to figure out how to submit a nested form-->
   </UForm>
 </template>

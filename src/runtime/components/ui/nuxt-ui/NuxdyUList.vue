@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from "vue";
+import { h, resolveComponent } from "vue";
 import type { FormField } from "../../../types";
 import { useFieldHelpers } from "../../../composables/useFieldHelpers";
 import { ZodError, ZodTypeAny } from "zod";
 import { generateZodSchema } from "../../../composables/useZodForm";
+
+const UButton = resolveComponent("UButton");
 const props = defineProps<{
   fields: FormField[];
   listId: string;
   fullWidthFields?: boolean;
   spaceBetweenFields?: string;
+  addButtonLabel?: string;
+  displayFieldId?: string;
 }>();
 
 const { fieldWidth, schema, fieldState, initFieldState, shouldShowField } =
@@ -60,6 +65,34 @@ const handleGroupUpdate = (newVal: any) => {
     formState.value[newVal.groupId] = newVal.formState;
   }
 };
+
+const tableColumns = computed(() => {
+  return [
+    ...props.fields.map((item) => {
+      return {
+        accessorKey: item.id,
+        header: item.label,
+      };
+    }),
+    {
+      accessorKey: "actions",
+      header: "",
+      cell: ({ row }: { row: any }) => {
+        return h(
+          "div",
+          { class: "text-right" },
+          h(UButton, {
+            icon: "i-lucide-trash",
+            color: "error",
+            variant: "ghost",
+            "aria-label": "Remove item",
+            onClick: () => removeItem(row.index),
+          })
+        );
+      },
+    },
+  ];
+});
 
 const emit = defineEmits(["update:state"]);
 </script>
@@ -165,16 +198,21 @@ const emit = defineEmits(["update:state"]);
           </UCard>
         </UFormField>
       </div>
-      <UButton label="Add Item" @click="addItem" />
+      <UButton :label="props.addButtonLabel || 'Add Item'" @click="addItem" />
     </UForm>
     <!-- List of items -->
-    <div class="flex flex-col gap-2">
-      <UCard v-for="(item, index) in formState" :key="index">
+    <div class="flex flex-col gap-2 mt-4">
+      <UTable
+        :data="formState"
+        :columns="tableColumns"
+        :key="formState.length"
+      />
+
+      <!-- <UCard v-for="(item, index) in formState" :key="index">
         <template #header>
           <UButton @click="removeItem(index)">Remove Item</UButton>
         </template>
-        <pre>{{ item }}</pre>
-      </UCard>
+      </UCard> -->
     </div>
   </template>
 </template>
