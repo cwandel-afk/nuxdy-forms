@@ -1,0 +1,193 @@
+<script setup lang="ts">
+import { ref, onMounted, computed, watch } from "vue";
+import type { FormField } from "../../../types";
+import { useFieldHelpers } from "../../../composables/useFieldHelpers";
+import { ZodError, ZodTypeAny } from "zod";
+import { generateZodSchema } from "../../../composables/useZodForm";
+const props = defineProps<{
+  fields: FormField[];
+  listId: string;
+  fullWidthFields?: boolean;
+  spaceBetweenFields?: string;
+}>();
+
+const { fieldWidth, schema, fieldState, initFieldState, shouldShowField } =
+  useFieldHelpers(props.fields, true, false);
+const isHydrated = ref(false);
+const formState = ref<any[]>([]);
+
+const validateListState = async () => {
+  return await schema.value
+    ?.parseAsync(fieldState.value)
+    .then((res) => {
+      return true;
+    })
+    .catch((err: ZodError) => {
+      return false;
+    });
+};
+
+const addItem = async () => {
+  await validateListState().then((res) => {
+    if (res) {
+      formState.value.push(fieldState.value);
+      // Reset field state to initial values
+      fieldState.value = initFieldState(props.fields, undefined, false, true);
+      // Reset schema
+      schema.value = generateZodSchema(props.fields);
+      emit("update:state", {
+        formState: formState.value,
+        listId: props.listId,
+      });
+    }
+  });
+};
+
+const removeItem = (index: number) => {
+  formState.value.splice(index, 1);
+  emit("update:state", {
+    formState: formState.value,
+    listId: props.listId,
+  });
+};
+
+onMounted(async () => {
+  isHydrated.value = true;
+});
+
+const handleGroupUpdate = (newVal: any) => {
+  if (newVal) {
+    formState.value[newVal.groupId] = newVal.formState;
+  }
+};
+
+const emit = defineEmits(["update:state"]);
+</script>
+
+<template>
+  <div v-if="!isHydrated" class="nuxdy-form-loading">
+    <!-- You can add a loading skeleton or spinner here -->
+    <div class="animate-pulse">
+      <div v-for="field in fields" :key="field.id" class="mb-4">
+        <div class="h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
+        <div class="h-10 bg-gray-200 rounded"></div>
+      </div>
+    </div>
+  </div>
+  <template v-else>
+    <UForm
+      :state="fieldState"
+      :schema="schema"
+      :key="schema"
+      class="nuxdy-ui-form"
+      :style="{
+        '--space-between-fields': props.spaceBetweenFields,
+      }"
+      @submit="console.log('submitted')"
+    >
+      <div v-for="field in fields" :key="field.id">
+        <UFormField
+          v-if="shouldShowField(field, fieldState)"
+          :key="field.id"
+          :name="field.id"
+          :label="field.label"
+          :required="field.required"
+          :help="field.helpText"
+          :description="field.description"
+          :hint="field.hint"
+          :size="field.size"
+        >
+          <UInput
+            v-if="field.type === 'text' || field.type === 'email'"
+            :name="field.id"
+            :placeholder="field.placeholder"
+            v-model="fieldState[field.id]"
+            :class="fieldWidth(field)"
+          />
+          <UInputNumber
+            v-if="field.type === 'number'"
+            :name="field.id"
+            :placeholder="field.placeholder"
+            v-model="fieldState[field.id]"
+            :class="fieldWidth(field)"
+          />
+          <UTextarea
+            v-if="field.type === 'textarea'"
+            :name="field.id"
+            :rows="field.rows"
+            :placeholder="field.placeholder"
+            v-model="fieldState[field.id]"
+            :class="fieldWidth(field)"
+          />
+          <UCheckbox
+            v-if="field.type === 'checkbox'"
+            :name="field.id"
+            v-model="fieldState[field.id]"
+            :class="fieldWidth(field)"
+          />
+          <USelect
+            v-if="field.type === 'select'"
+            :name="field.id"
+            :items="field.options"
+            v-model="fieldState[field.id]"
+            :placeholder="field.placeholder"
+            :class="fieldWidth(field)"
+          />
+          <URadioGroup
+            v-if="field.type === 'radio'"
+            :name="field.id"
+            v-model="fieldState[field.id]"
+            :items="field.options"
+            :class="fieldWidth(field)"
+          />
+          <USelectMenu
+            v-if="field.type === 'checkbox-group'"
+            :name="field.id"
+            multiple
+            :placeholder="field.placeholder"
+            v-model="fieldState[field.id]"
+            :items="field.options"
+            :class="fieldWidth(field)"
+          />
+          <!-- <UCard v-if="field.type === 'list'">
+        <NuxdyUList
+          :fields="field.fields"
+          :list-id="field.id"
+          @update:state="handleListUpdate"
+        />
+      </UCard> -->
+          <UCard v-if="field.type === 'group'">
+            <NuxdyUGroup
+              :fields="field.fields"
+              :group-id="field.id"
+              @update:state="handleGroupUpdate"
+            />
+          </UCard>
+        </UFormField>
+      </div>
+      <UButton label="Add Item" @click="addItem" />
+    </UForm>
+    <!-- List of items -->
+    <div class="flex flex-col gap-2">
+      <UCard v-for="(item, index) in formState" :key="index">
+        <template #header>
+          <UButton @click="removeItem(index)">Remove Item</UButton>
+        </template>
+        <pre>{{ item }}</pre>
+      </UCard>
+    </div>
+  </template>
+</template>
+
+<style scoped>
+.nuxdy-ui-form {
+  --space-between-fields: 1rem;
+  & > * + * {
+    margin-top: var(--space-between-fields);
+  }
+}
+
+.nuxdy-form-loading {
+  width: 100%;
+}
+</style>

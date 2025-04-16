@@ -36,8 +36,38 @@ Add the module to your `nuxt.config.ts`:
 ```typescript
 export default defineNuxtConfig({
   modules: ["nuxdy-forms"],
+  nuxdyForm: {
+    useNuxtUI: true, // Enable Nuxt UI integration
+  },
 });
 ```
+
+### Nuxt UI Integration
+
+Nuxdy Forms can be integrated with [Nuxt UI](https://ui.nuxt.com/) to provide a consistent design system and additional UI components. To enable this integration:
+
+1. Install Nuxt UI in your project:
+
+```bash
+npm install @nuxt/ui
+```
+
+2. Enable the integration in your `nuxt.config.ts`:
+
+```typescript
+export default defineNuxtConfig({
+  modules: ["nuxdy-forms"],
+  nuxdyForm: {
+    useNuxtUI: true,
+  },
+});
+```
+
+When Nuxt UI integration is enabled, Nuxdy Forms will:
+
+- Use Nuxt UI's design system and components
+- Provide better integration with Nuxt UI's form components
+- Maintain consistent styling with your Nuxt UI theme
 
 ## Basic Usage
 

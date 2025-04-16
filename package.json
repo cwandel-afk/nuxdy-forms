@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "nuxt-module-build build",
-    "dev": "nuxi dev playground",
+    "dev": "nuxi dev",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare",
     "lint": "eslint .",
     "test": "vitest run",
@@ -32,7 +32,8 @@
     "vue3",
     "forms",
     "dynamic-forms",
-    "tailwindcss"
+    "tailwindcss",
+    "nuxtui"
   ],
   "author": "Christopher Wandel",
   "license": "MIT",
@@ -43,7 +44,8 @@
   "dependencies": {
     "@nuxt/kit": "^3.16.0",
     "@tailwindcss/vite": "^4.0.14",
-    "defu": "^6.1.4"
+    "defu": "^6.1.4",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^0.2.0",
@@ -61,6 +63,7 @@
     "vue": "^3.5.13"
   },
   "peerDependencies": {
+    "@nuxt/ui": "^2.21.1",
     "nuxt": "^3.0.0"
   },
   "publishConfig": {

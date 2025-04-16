@@ -1,19 +1,20 @@
-export interface FormModuleOptions {
-  // Any module options you want to keep
-}
-
 // Base interface with common properties
 interface BaseFormField {
   id: string;
-  label: string;
-  required?: boolean;
+  label?: string;
+  required: boolean;
   helpText?: string;
+  description?: string;
+  hint?: string;
+  error?: string;
+  size?: "sm" | "md" | "lg";
   conditions?: Array<{
     field: string;
     operator: "==" | "!=" | ">" | "<" | ">=" | "<=" | "contains" | "!contains";
     value: any;
   }>;
   defaultValue?: any;
+  width?: "full" | "half" | "fit" | "auto";
 }
 
 // Input fields (text, email, number)
@@ -45,6 +46,7 @@ interface OptionsFormField extends BaseFormField {
   options: Array<{
     value: string | number | boolean;
     label: string;
+    description?: string;
   }>;
   placeholder?: string;
   validation?: {

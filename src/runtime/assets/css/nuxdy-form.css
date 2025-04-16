@@ -1,6 +1,19 @@
 @import "tailwindcss";
 
 @layer base {
+  .nuxdy-ui-form-full-width {
+    width: 100%;
+  }
+  .nuxdy-ui-form-half-width {
+    width: 50%;
+  }
+  .nuxdy-ui-form-fit-width {
+    width: fit-content;
+  }
+  .nuxdy-ui-form-auto-width {
+    width: auto;
+  }
+
   /* Base form styles */
   .nuxdy-form {
     width: 100%;
