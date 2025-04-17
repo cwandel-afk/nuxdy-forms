@@ -1,8 +1,6 @@
-import { ref, computed, reactive } from "vue";
+import { ref, reactive } from "vue";
 import { z, ZodTypeAny } from "zod";
-import type { FormError } from "@nuxt/ui/dist/runtime/types";
 import type { FormConfig, FormField } from "../types";
-import { useFieldHelpers } from "./useFieldHelpers";
 
 export function generateZodSchema(
   fields: FormField[],
@@ -119,19 +117,6 @@ export function generateZodSchema(
         } else {
           schema = z.object({}).array();
         }
-        // const listObjSchema = z.object(
-        //   Object.fromEntries(
-        //     field.fields.map((field) => {
-        //       const ztype = generateZodSchema([field]);
-        //       return [field.id, ztype];
-        //     })
-        //   )
-        // );
-        // if (field.required === true)
-        //   schema = z.array(listObjSchema).nonempty({
-        //     message: field.error,
-        //   });
-        // else schema = z.array(listObjSchema);
         break;
 
       case "group":
@@ -142,9 +127,11 @@ export function generateZodSchema(
 
               return [field.id, ztype];
             })
-          )
+          ),
+          {
+            message: field.required ? field.error : undefined,
+          }
         );
-
         schema = groupObjSchema;
         break;
 
@@ -165,15 +152,11 @@ export function generateZodSchema(
     return shape[fields[0].id];
   }
 
-  console.log("Parent", shape);
   return z.object(shape);
 }
 
 export function useZodForm(config: FormConfig, initialState?: any) {
   const state = reactive<Record<string, any>>({});
-  const errors = ref<FormError[]>([]);
-  const touched = ref<Set<string>>(new Set());
-  const isSubmitting = ref(false);
   const schema = ref<ZodTypeAny>(generateZodSchema(config.fields));
 
   // Initialize form data with default values
@@ -214,58 +197,6 @@ export function useZodForm(config: FormConfig, initialState?: any) {
     });
   };
 
-  const validate = async (path?: string) => {
-    try {
-      await schema.value.parseAsync(state);
-      if (path) {
-        errors.value = errors.value.filter(
-          (error: FormError) => error.path !== path
-        );
-      } else {
-        errors.value = [];
-      }
-      return true;
-    } catch (error: unknown) {
-      if (error instanceof z.ZodError) {
-        const newErrors = error.errors.map((err) => ({
-          path: err.path.join("."),
-          message: err.message,
-        }));
-        if (path) {
-          errors.value = [
-            ...errors.value.filter((error: FormError) => error.path !== path),
-            ...newErrors.filter((error: FormError) => error.path === path),
-          ];
-        } else {
-          errors.value = newErrors;
-        }
-      }
-      return false;
-    }
-  };
-
-  const clearErrors = (path?: string) => {
-    if (path) {
-      errors.value = errors.value.filter(
-        (error: FormError) => error.path !== path
-      );
-    } else {
-      errors.value = [];
-    }
-  };
-
-  const setTouched = (path: string) => {
-    touched.value.add(path);
-  };
-
-  const isTouched = (path: string) => {
-    return touched.value.has(path);
-  };
-
-  const getError = (path: string) => {
-    return errors.value.find((error: FormError) => error.path === path);
-  };
-
   const shouldShowField = (field: FormField, state: Record<string, any>) => {
     if (field.conditions) {
       return field.conditions.every((condition) => {
@@ -295,14 +226,7 @@ export function useZodForm(config: FormConfig, initialState?: any) {
 
   return {
     state,
-    errors,
     schema,
-    isSubmitting,
-    validate,
-    clearErrors,
-    setTouched,
-    isTouched,
-    getError,
     initState,
     shouldShowField,
   };

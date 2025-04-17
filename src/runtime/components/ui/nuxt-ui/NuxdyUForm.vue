@@ -1,32 +1,27 @@
 <script setup lang="ts">
-import { z } from "zod";
+import { ZodError } from "zod";
 import { useZodForm } from "../../../composables/useZodForm";
 import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 import type { FormConfig, FormField } from "../../../types";
 import { onMounted, ref } from "vue";
-import { useFieldHelpers } from "../../../composables/useFieldHelpers";
 const props = defineProps<{
   config: FormConfig;
   initialState?: any;
   fullWidthFields?: boolean;
   spaceBetweenFields?: string;
-  onSubmit: (event: FormSubmitEvent<any>) => Promise<void> | void;
+  onSubmit: (state: any) => Promise<void> | void;
 }>();
 
 const isHydrated = ref(false);
-const {
-  state,
-  errors,
-  isSubmitting,
-  validate,
-  schema,
-  initState,
-  shouldShowField,
-} = useZodForm(props.config, props.initialState);
+const formErrors = ref<ZodError | null>(null);
+
+const { state, schema, initState, shouldShowField } = useZodForm(
+  props.config,
+  props.initialState
+);
 
 const handleSubmit = async () => {
-  // await props.onSubmit(event);
-  console.log("handleSubmit", state);
+  await props.onSubmit(state);
 };
 
 const handleReset = () => {
@@ -35,7 +30,6 @@ const handleReset = () => {
 
 onMounted(async () => {
   await initState();
-  // Mark as hydrated after initialization
   isHydrated.value = true;
 });
 
@@ -55,10 +49,10 @@ const handleValidate = async () => {
   await schema.value
     .parseAsync(state)
     .then(() => {
-      console.log("valid");
+      handleSubmit();
     })
-    .catch((error) => {
-      console.log("invalid", error);
+    .catch((error: ZodError) => {
+      formErrors.value = error;
     });
 };
 
@@ -75,6 +69,12 @@ const fieldWidth = (field: FormField) => {
     default:
       return "";
   }
+};
+
+const fieldError = (field: FormField) => {
+  return formErrors.value?.issues.find((issue) =>
+    issue.path.some((path) => path == field.id)
+  )?.message;
 };
 </script>
 
@@ -99,6 +99,7 @@ const fieldWidth = (field: FormField) => {
     }"
   >
     <div v-for="field in config.fields" :key="field.id">
+      <!-- TODO: Group and List Error Handling within UFormField -->
       <UFormField
         v-if="shouldShowField(field, state)"
         :name="field.id"
@@ -108,6 +109,7 @@ const fieldWidth = (field: FormField) => {
         :description="field.description"
         :hint="field.hint"
         :size="field.size"
+        :error="fieldError(field)"
       >
         <UInput
           v-if="field.type === 'text' || field.type === 'email'"
@@ -168,7 +170,6 @@ const fieldWidth = (field: FormField) => {
             :full-width-fields="props.fullWidthFields"
             :space-between-fields="props.spaceBetweenFields"
             :add-button-label="field.addButtonLabel"
-            :display-field-id="field.displayFieldId"
             @update:state="handleListUpdate"
           />
         </UCard>

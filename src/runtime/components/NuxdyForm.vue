@@ -143,13 +143,6 @@ async function handleSubmit() {
 }
 
 function formatOutput() {
-  // Format the output based on config.outputFormat
-  if (props.config.outputFormat === "yaml") {
-    // Convert to YAML format
-    // You would need to add a YAML library dependency
-    return formData.value;
-  }
-
   // Default to JSON
   return formData.value;
 }

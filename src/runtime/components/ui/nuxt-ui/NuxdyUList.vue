@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from "vue";
-import { h, resolveComponent } from "vue";
+import { ref, onMounted, computed, h, resolveComponent } from "vue";
 import type { FormField } from "../../../types";
 import { useFieldHelpers } from "../../../composables/useFieldHelpers";
-import { ZodError, ZodTypeAny } from "zod";
+import { ZodError } from "zod";
 import { generateZodSchema } from "../../../composables/useZodForm";
 
 const UButton = resolveComponent("UButton");
@@ -13,7 +12,6 @@ const props = defineProps<{
   fullWidthFields?: boolean;
   spaceBetweenFields?: string;
   addButtonLabel?: string;
-  displayFieldId?: string;
 }>();
 
 const { fieldWidth, schema, fieldState, initFieldState, shouldShowField } =
@@ -116,7 +114,6 @@ const emit = defineEmits(["update:state"]);
       :style="{
         '--space-between-fields': props.spaceBetweenFields,
       }"
-      @submit="console.log('submitted')"
     >
       <div v-for="field in fields" :key="field.id">
         <UFormField

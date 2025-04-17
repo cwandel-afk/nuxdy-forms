@@ -104,7 +104,6 @@ export const useFieldHelpers = (
     for (const field of fields) {
       let schema: ZodTypeAny | undefined;
 
-      console.log("Creating Schema for", field);
       switch (field.type) {
         case "text":
           schema = z.string();
@@ -206,14 +205,6 @@ export const useFieldHelpers = (
           break;
 
         case "list":
-          // const listObjSchema = z.object(
-          //   Object.fromEntries(
-          //     field.fields.map((field) => {
-          //       const ztype = generateZodSchema([field]);
-          //       return [field.id, ztype];
-          //     })
-          //   )
-          // );
           const listObjSchema = generateZodSchema(field.fields);
           if (field.required === true)
             schema = z.array(listObjSchema).nonempty({
@@ -223,17 +214,19 @@ export const useFieldHelpers = (
           break;
 
         case "group":
-          // const groupObjSchema = z.object(
-          //   Object.fromEntries(
-          //     field.fields.map(async (field) => {
-          //       const ztype = await generateZodSchema([field]);
+          const groupObjSchema = z.object(
+            Object.fromEntries(
+              field.fields.map((field) => {
+                const ztype = generateZodSchema([field]);
 
-          //       return [field.id, ztype];
-          //     })
-          //   )
-          // );
-
-          // schema = groupObjSchema;
+                return [field.id, ztype];
+              })
+            ),
+            {
+              message: field.error,
+            }
+          );
+          schema = groupObjSchema;
           break;
 
         default:
@@ -252,12 +245,6 @@ export const useFieldHelpers = (
         console.error(`No schema found for field ${field.id}`);
       }
     }
-
-    // if (fields.length === 1) {
-    //   return shape[fields[0].id];
-    // }
-
-    console.log(shape);
 
     return z.object(shape);
   };
