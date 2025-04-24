@@ -92,6 +92,5 @@ export interface FormConfig {
   fields: FormField[];
   submitLabel?: string;
   resetLabel?: string;
-  outputFormat?: "json";
   buttonPlacement?: "left" | "right";
 }

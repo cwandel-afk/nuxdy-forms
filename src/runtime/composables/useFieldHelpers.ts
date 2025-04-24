@@ -73,7 +73,7 @@ export const useFieldHelpers = (
 
   const shouldShowField = (field: FormField, state: Record<string, any>) => {
     if (field.conditions) {
-      return field.conditions.every((condition) => {
+      return field.conditions.some((condition) => {
         const fieldValue = state[condition.field];
         switch (condition.operator) {
           case "==":

@@ -148,10 +148,6 @@ export function generateZodSchema(
     shape[field.id] = schema;
   }
 
-  if (fields.length === 1) {
-    return shape[fields[0].id];
-  }
-
   return z.object(shape);
 }
 

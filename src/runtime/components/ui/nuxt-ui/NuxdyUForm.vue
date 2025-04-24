@@ -110,6 +110,7 @@ const fieldError = (field: FormField) => {
         :hint="field.hint"
         :size="field.size"
         :error="fieldError(field)"
+        @submit="console.log('submit')"
       >
         <UInput
           v-if="field.type === 'text' || field.type === 'email'"

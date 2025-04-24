@@ -13,8 +13,8 @@ An extremely lightweight dynamic form component library for Nuxt 3 applications.
 - **Conditional Rendering**: Show/hide fields based on the values of other fields
 - **Validation**: Built-in validation with customizable error messages
 - **Styling**: Highly configurable with Tailwind CSS classes
-- **Output Formats**: Export form data as JSON or YAML
 - **Callback Support**: Submit form data to your backend API with a simple callback function
+- **Nuxt UI Integration**: Easily integrate with Nuxt UI components
 
 ## Installation
 
@@ -73,7 +73,15 @@ When Nuxt UI integration is enabled, Nuxdy Forms will:
 
 ```html
 <template>
+  <!-- Nuxdy Forms -->
   <NuxdyForm :config="formConfig" :submitCallback="handleSubmit" />
+
+  <!-- Nuxt UI Integration -->
+  <NuxdyUForm
+    :config="formConfig"
+    space-between-fields="2rem"
+    @submit="handleSubmit"
+  />
 </template>
 ```
 
@@ -111,7 +119,6 @@ const formConfig = {
   ],
   submitLabel: "Send Message",
   resetLabel: "Clear Form",
-  outputFormat: "json",
 };
 
 const handleSubmit = async (formData) => {
@@ -131,11 +138,19 @@ interface FormConfig {
   fields: FormField[];
   submitLabel?: string;
   resetLabel?: string;
-  outputFormat?: "json" | "yaml";
+  buttonPlacement?: "left" | "right"; // Currently only supported in Nuxt UI Integration
 }
 ```
 
 ### Field Types
+
+#### Nuxt UI Specific properties (Apply for all fields)
+
+- `description`: Description for the field
+- `hint`: Hint for the field
+- `error`: Error message for the field
+- `size`: Size for the field
+- `width`: Width for the field
 
 #### Text, Email, Number
 
@@ -147,13 +162,13 @@ interface FormConfig {
   placeholder: "Placeholder text",
   required: true,
   helpText: "Help text for the field",
-  min: 0, // For number fields
-  max: 100, // For number fields
+  min: 0,
+  max: 100,
   validation: {
     rules: ["required", "email"], // Built-in validation rules
     message: "Custom error message"
   },
-  defaultValue: "Default value"
+  defaultValue: "Default value",
 }
 ```
 
