@@ -39,7 +39,7 @@ export default defineNuxtModule<ModuleOptions>({
       );
 
       addComponentsDir({
-        path: resolver.resolve("./runtime/components/ui/nuxt-ui"),
+        path: resolver.resolve("./runtime/components/integrations/nuxt-ui"),
         pathPrefix: false,
       });
     }

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ZodError } from "zod";
 import { useZodForm } from "../../../composables/useZodForm";
-import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 import type { FormConfig, FormField } from "../../../types";
 import { onMounted, ref } from "vue";
 const props = defineProps<{
