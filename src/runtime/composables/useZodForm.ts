@@ -169,12 +169,7 @@ export function useZodForm(config: FormConfig, initialState?: any) {
       } else if (field.type === "list") {
         initialValues[field.id] = [];
       } else if (field.type === "group" && field.fields) {
-        // initialValues[field.id] = useFieldHelpers().initFieldState(
-        //   field.fields,
-        //   undefined,
-        //   true,
-        //   false
-        // );
+        // Nothing to do here
       } else if (field.type === "checkbox-group") {
         initialValues[field.id] = [];
       } else {

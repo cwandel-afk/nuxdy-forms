@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ZodError } from "zod";
 import { useZodForm } from "../../../composables/useZodForm";
+import { useNuxtUiForm } from "../../../composables/useNuxtUiForm";
 import type { FormConfig, FormField } from "../../../types";
 import { onMounted, ref } from "vue";
 const props = defineProps<{
@@ -14,7 +15,7 @@ const props = defineProps<{
 const isHydrated = ref(false);
 const formErrors = ref<ZodError | null>(null);
 
-const { state, schema, initState, shouldShowField } = useZodForm(
+const { state, schema, initState, shouldShowField, fieldWidth } = useNuxtUiForm(
   props.config,
   props.initialState
 );
@@ -55,21 +56,6 @@ const handleValidate = async () => {
     });
 };
 
-const fieldWidth = (field: FormField) => {
-  switch (field.width) {
-    case "full":
-      return "nuxdy-ui-form-full-width";
-    case "half":
-      return "nuxdy-ui-form-half-width";
-    case "fit":
-      return "nuxdy-ui-form-fit-width";
-    case "auto":
-      return "nuxdy-ui-form-auto-width";
-    default:
-      return "";
-  }
-};
-
 const fieldError = (field: FormField) => {
   return formErrors.value?.issues.find((issue) =>
     issue.path.some((path) => path == field.id)
@@ -97,6 +83,7 @@ const fieldError = (field: FormField) => {
       '--space-between-fields': props.spaceBetweenFields,
     }"
   >
+    <!-- <pre>{{ state }}</pre> -->
     <div v-for="field in config.fields" :key="field.id">
       <!-- TODO: Group and List Error Handling within UFormField -->
       <UFormField

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from "vue";
 import type { FormField } from "../../../types";
-import { useFieldHelpers } from "../../../composables/useFieldHelpers";
+import { useNuxtUiForm } from "../../../composables/useNuxtUiForm";
+import { ZodError } from "zod";
 const props = defineProps<{
   fields: FormField[];
   groupId: string;
@@ -9,15 +10,25 @@ const props = defineProps<{
   spaceBetweenFields?: string;
 }>();
 
-const { fieldWidth, schema, fieldState, shouldShowField } = useFieldHelpers(
-  props.fields,
-  false,
-  true
+const formErrors = ref<ZodError | null>(null);
+
+
+const fieldConfig = computed(() => {
+  return {
+    id: props.groupId,
+    fields: props.fields,
+  };
+});
+
+const { state, schema, initState, shouldShowField, fieldWidth } = useNuxtUiForm(
+  fieldConfig.value
 );
 
-onMounted(async () => {});
+onMounted(async () => {
+  await initState();
+});
 
-watch(fieldState.value, (newVal) => {
+watch(state, (newVal) => {
   emit("update:state", {
     formState: newVal,
     groupId: props.groupId,
@@ -28,14 +39,20 @@ const emit = defineEmits(["update:state"]);
 
 const handleListUpdate = (newVal: any) => {
   if (newVal) {
-    fieldState.value[newVal.listId] = newVal.formState;
+    state.value[newVal.listId] = newVal.formState;
   }
+};
+
+const fieldError = (field: FormField) => {
+  return formErrors.value?.issues.find((issue) =>
+    issue.path.some((path) => path == field.id)
+  )?.message;
 };
 </script>
 
 <template>
   <UForm
-    :state="fieldState"
+    :state="state"
     :schema="schema"
     :key="schema"
     class="nuxdy-ui-form"
@@ -45,28 +62,28 @@ const handleListUpdate = (newVal: any) => {
   >
     <div v-for="field in fields" :key="field.id">
       <UFormField
-        v-if="shouldShowField(field, fieldState)"
+        v-if="shouldShowField(field, state)"
         :name="field.id"
         :label="field.label"
         :required="field.required"
         :help="field.helpText"
         :description="field.description"
         :hint="field.hint"
-        :error="field.error"
+        :error="fieldError(field)"
         :size="field.size"
       >
         <UInput
           v-if="field.type === 'text' || field.type === 'email'"
           :name="field.id"
           :placeholder="field.placeholder"
-          v-model="fieldState[field.id]"
+          v-model="state[field.id]"
           :class="fieldWidth(field)"
         />
         <UInputNumber
           v-if="field.type === 'number'"
           :name="field.id"
           :placeholder="field.placeholder"
-          v-model="fieldState[field.id]"
+          v-model="state[field.id]"
           :class="fieldWidth(field)"
         />
         <UTextarea
@@ -74,27 +91,27 @@ const handleListUpdate = (newVal: any) => {
           :name="field.id"
           :rows="field.rows"
           :placeholder="field.placeholder"
-          v-model="fieldState[field.id]"
+          v-model="state[field.id]"
           :class="fieldWidth(field)"
         />
         <UCheckbox
           v-if="field.type === 'checkbox'"
           :name="field.id"
-          v-model="fieldState[field.id]"
+          v-model="state[field.id]"
           :class="fieldWidth(field)"
         />
         <USelect
           v-if="field.type === 'select'"
           :name="field.id"
           :items="field.options"
-          v-model="fieldState[field.id]"
+          v-model="state[field.id]"
           :placeholder="field.placeholder"
           :class="fieldWidth(field)"
         />
         <URadioGroup
           v-if="field.type === 'radio'"
           :name="field.id"
-          v-model="fieldState[field.id]"
+          v-model="state[field.id]"
           :items="field.options"
           :class="fieldWidth(field)"
         />
@@ -103,7 +120,7 @@ const handleListUpdate = (newVal: any) => {
           :name="field.id"
           multiple
           :placeholder="field.placeholder"
-          v-model="fieldState[field.id]"
+          v-model="state[field.id]"
           :items="field.options"
           :class="fieldWidth(field)"
         />

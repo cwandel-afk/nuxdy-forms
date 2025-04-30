@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, h, resolveComponent } from "vue";
 import type { FormField } from "../../../types";
-import { useFieldHelpers } from "../../../composables/useFieldHelpers";
 import { ZodError } from "zod";
 import { generateZodSchema } from "../../../composables/useZodForm";
-
+import { useNuxtUiForm } from "../../../composables/useNuxtUiForm";
 const UButton = resolveComponent("UButton");
 const props = defineProps<{
   fields: FormField[];
@@ -14,18 +13,38 @@ const props = defineProps<{
   addButtonLabel?: string;
 }>();
 
-const { fieldWidth, schema, fieldState, initFieldState, shouldShowField } =
-  useFieldHelpers(props.fields, true, false);
+const fieldConfig = computed(() => {
+  return {
+    id: props.listId,
+    fields: props.fields,
+  };
+});
+const { state, schema, initState, shouldShowField, fieldWidth } = useNuxtUiForm(
+  fieldConfig.value,
+  undefined,
+  true
+);
+
 const isHydrated = ref(false);
 const formState = ref<any[]>([]);
 
 const validateListState = async () => {
+  console.group("Validate List State");
+  console.log("State", state);
+  console.log("Schema", schema.value);
+  console.groupEnd();
   return await schema.value
-    ?.parseAsync(fieldState.value)
+    ?.parseAsync(state)
     .then((res) => {
+      console.log("List Validated");
       return true;
     })
     .catch((err: ZodError) => {
+      console.group("List Validation Error");
+      console.log("State", state);
+      console.log("Schema", schema.value);
+      console.log("List Validation Error", err);
+      console.groupEnd();
       return false;
     });
 };
@@ -33,9 +52,9 @@ const validateListState = async () => {
 const addItem = async () => {
   await validateListState().then((res) => {
     if (res) {
-      formState.value.push(fieldState.value);
+      formState.value.push(state);
       // Reset field state to initial values
-      fieldState.value = initFieldState(props.fields, undefined, false, true);
+      initState();
       // Reset schema
       schema.value = generateZodSchema(props.fields);
       emit("update:state", {
@@ -92,6 +111,12 @@ const tableColumns = computed(() => {
   ];
 });
 
+const handleListUpdate = (newVal: any) => {
+  if (newVal) {
+    state[newVal.listId] = newVal.formState;
+  }
+};
+
 const emit = defineEmits(["update:state"]);
 </script>
 
@@ -107,7 +132,7 @@ const emit = defineEmits(["update:state"]);
   </div>
   <template v-else>
     <UForm
-      :state="fieldState"
+      :state="state"
       :schema="schema"
       :key="schema"
       class="nuxdy-ui-form"
@@ -117,7 +142,7 @@ const emit = defineEmits(["update:state"]);
     >
       <div v-for="field in fields" :key="field.id">
         <UFormField
-          v-if="shouldShowField(field, fieldState)"
+          v-if="shouldShowField(field, state)"
           :key="field.id"
           :name="field.id"
           :label="field.label"
@@ -131,14 +156,14 @@ const emit = defineEmits(["update:state"]);
             v-if="field.type === 'text' || field.type === 'email'"
             :name="field.id"
             :placeholder="field.placeholder"
-            v-model="fieldState[field.id]"
+            v-model="state[field.id]"
             :class="fieldWidth(field)"
           />
           <UInputNumber
             v-if="field.type === 'number'"
             :name="field.id"
             :placeholder="field.placeholder"
-            v-model="fieldState[field.id]"
+            v-model="state[field.id]"
             :class="fieldWidth(field)"
           />
           <UTextarea
@@ -146,27 +171,27 @@ const emit = defineEmits(["update:state"]);
             :name="field.id"
             :rows="field.rows"
             :placeholder="field.placeholder"
-            v-model="fieldState[field.id]"
+            v-model="state[field.id]"
             :class="fieldWidth(field)"
           />
           <UCheckbox
             v-if="field.type === 'checkbox'"
             :name="field.id"
-            v-model="fieldState[field.id]"
+            v-model="state[field.id]"
             :class="fieldWidth(field)"
           />
           <USelect
             v-if="field.type === 'select'"
             :name="field.id"
             :items="field.options"
-            v-model="fieldState[field.id]"
+            v-model="state[field.id]"
             :placeholder="field.placeholder"
             :class="fieldWidth(field)"
           />
           <URadioGroup
             v-if="field.type === 'radio'"
             :name="field.id"
-            v-model="fieldState[field.id]"
+            v-model="state[field.id]"
             :items="field.options"
             :class="fieldWidth(field)"
           />
@@ -175,17 +200,17 @@ const emit = defineEmits(["update:state"]);
             :name="field.id"
             multiple
             :placeholder="field.placeholder"
-            v-model="fieldState[field.id]"
+            v-model="state[field.id]"
             :items="field.options"
             :class="fieldWidth(field)"
           />
-          <!-- <UCard v-if="field.type === 'list'">
-        <NuxdyUList
-          :fields="field.fields"
-          :list-id="field.id"
-          @update:state="handleListUpdate"
-        />
-      </UCard> -->
+          <UCard v-if="field.type === 'list'">
+            <NuxdyUList
+              :fields="field.fields"
+              :list-id="field.id"
+              @update:state="handleListUpdate"
+            />
+          </UCard>
           <UCard v-if="field.type === 'group'">
             <NuxdyUGroup
               :fields="field.fields"
